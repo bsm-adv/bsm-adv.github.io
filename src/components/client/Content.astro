@@ -1,0 +1,58 @@
+---
+import dataKlien from "../../data/klien.json";
+
+// impor semua gambar sekaligus
+const semuaGambar = import.meta.glob("../../assets/klien/*.{png,svg}", {
+    eager: true,
+    as: "url"
+});
+
+const fallbackLogo =
+    'data:image/svg+xml;utf8,' +
+    encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80">
+        <rect width="200" height="80" fill="#e5e7eb"/>
+        <text x="100" y="45" text-anchor="middle" font-size="14" fill="#6b7280">
+            Logo Tidak Tersedia
+        </text>
+    </svg>`);
+
+type Metadata = typeof dataKlien.metadata;
+type slugKlien = keyof Metadata;
+const grupSlug = dataKlien.grup as slugKlien[][];
+
+function gambarDariSlug(slug: slugKlien): string {
+    const key = Object.keys(semuaGambar).find(p => p.includes(`/${slug}.`));
+    return key ? semuaGambar[key] : fallbackLogo;
+}
+
+const klien = grupSlug.map(grup =>
+    grup.map(slug => ({
+        nama: dataKlien.metadata[slug].nama,
+        ukuran: dataKlien.metadata[slug].ukuran,
+        gambar: gambarDariSlug(slug)
+    }))
+);
+---
+
+<div class="flex flex-col gap-8">
+
+    {klien.map(grup => (
+
+        <div class="flex flex-wrap gap-8 justify-center items-center">
+
+            {grup.map(logo =>  (
+
+                <img
+                    src={logo.gambar}
+                    alt={logo.nama}
+                    class={`${logo.ukuran} w-auto`}
+                    loading="lazy"
+                />
+
+            ))}
+
+        </div>
+
+    ))}
+
+</div>

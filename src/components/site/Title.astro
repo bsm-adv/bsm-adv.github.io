@@ -1,0 +1,41 @@
+---
+interface Props {
+    title: string;
+    description?: string;
+    as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+    class?: string;
+    subclass?: string;
+}
+
+const {
+    title,
+    description,
+    as = "h1",
+    class: titleClass = "",
+    subclass = ""
+} = Astro.props as Props;
+
+const isHome = Astro.url.pathname === "/";
+const Tag = as;
+---
+
+<Tag
+    class:list={[
+        "text-3xl md:text-4xl",
+        isHome ? "xl:text-5xl" : "lg:text-5xl xl:text-6xl",
+        titleClass,
+    ]}
+>
+    {title}
+</Tag>
+
+{description &&
+    <p
+        class:list={[
+            "mx-auto max-w-(--breakpoint-sm) mt-4",
+            subclass
+        ]}
+    >
+        {description}
+    </p>
+}

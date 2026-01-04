@@ -1,0 +1,22 @@
+[
+    {
+        "teks": "Home",
+        "href": "/"
+    },
+    {
+        "teks": "Work",
+        "href": "/work"
+    },
+    {
+        "teks": "Clients",
+        "href": "/clients"
+    },
+    {
+        "teks": "Portfolios",
+        "href": "/portfolios"
+    },
+    {
+        "teks": "Contact",
+        "href": "/contact"
+    }
+]

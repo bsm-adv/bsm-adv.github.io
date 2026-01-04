@@ -1,0 +1,39 @@
+---
+import Logo from "./Logo.astro";
+import logoImg from "../../assets/ikon/faviconDark.svg";
+import siteNav from "../../data/sitenav.json";
+
+const { pathname } = Astro.url;
+
+const isActive = (href: string) => {
+    if (href === '/') return pathname === "/";
+    return pathname === href || pathname.startsWith(`${href}/`);
+};
+---
+
+<div class="flex max-md:flex-col gap-4 items-center">
+
+    <Logo src={logoImg.src} size="size-18"/>
+
+    <div class="flex gap-1 justify-center md:justify-end md:ms-auto uppercase">
+
+        {siteNav.map(nav => (
+
+            <a
+                href={nav.href}
+                class:list={[
+                    "px-2 py-1 md:px-3 md:py-2 font-semibold border transition-all",
+                    isActive(nav.href)
+                        ? "border-neutral-500 text-black"
+                        : "border-transparent hover:text-black hover:border-neutral-500"
+                ]}
+                aria-current={isActive(nav.href) ? "page" : undefined}
+            >
+                {nav.teks}
+            </a>
+
+        ))}
+
+    </div>
+
+</div>

@@ -1,0 +1,30 @@
+---
+import Card from "./Card.astro";
+import Peta from "./Peta.astro";
+
+import alamat from "../../data/alamat.json";
+const items = Object.values(alamat);
+---
+
+<div class="flex flex-col md:flex-row gap-12 md:items-center">
+
+    <div class="basis-1/2">
+
+        <Peta/>
+
+    </div>
+
+    <div class="basis-1/2 flex flex-col gap-6 p-4 md:p-0">
+
+        {items.map(item => (
+            <Card
+                label={item.label}
+                lokasi={item.lokasi}
+                ikon={`bi:${item.ikon}`}
+                href={item.href}
+            />
+        ))}
+
+    </div>
+
+</div>

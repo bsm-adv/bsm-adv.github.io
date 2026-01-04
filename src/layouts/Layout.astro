@@ -1,0 +1,42 @@
+---
+import "../styles/global.css"
+import faviconDark from "../assets/ikon/faviconDark.svg";
+import faviconLight from "../assets/ikon/faviconLight.svg";
+
+interface Props {
+    title: string;
+    description: string;
+};
+
+const {
+    title,
+    description
+} = Astro.props as Props;
+---
+
+<!DOCTYPE html>
+<html lang="id" class="text-base md:text-lg text-neutral-700 antialiased">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>{title}</title>
+    <meta name="description" content={description}>
+
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:type" content="website">
+    <!-- <meta property="og:url" content="https://zmni.github.io/bsm/">
+    <meta property="og:image" content="https://zmni.github.io/faviconDark.svg"> -->
+
+    <link rel="icon" href={faviconDark.src} media="(prefers-color-scheme: light)" sizes="any">
+    <link rel="icon" href={faviconLight.src} media="(prefers-color-scheme: dark)" sizes="any">
+
+</head>
+<body>
+
+    <slot />
+
+</body>
+</html>

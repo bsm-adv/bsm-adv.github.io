@@ -1,0 +1,26 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import waLogo from "../../assets/ikon/waLogo.png";
+import sosmed from "../../data/sosmed.json";
+
+const currentYear = new Date().getFullYear();
+---
+
+<div class="container mx-auto p-4 flex flex-col md:flex-row items-center">
+
+    <div class="uppercase mb-4 md:mb-0">&copy; {currentYear} &mdash; BINTANG SURYA MADANI</div>
+
+    <div class="md:ml-auto flex gap-2">
+        {sosmed.map(item => (
+            <a class="p-2 hover:text-blue-600 border border-neutral-300 hover:border-neutral-500 transition-all rounded-sm" href={item.href} rel="me">
+                <Icon name={`bi:${item.nama}`} size="28" />
+            </a>
+        ))}
+    </div>
+
+</div>
+
+<a class="block rounded-full size-12 overflow-hidden transform hover:scale-120 transition-transform ring-4 ring-gray-300 hover:ring-black/15 fixed right-6 bottom-24 z-999" href="https://wa.me/6281328030870?text=Halo..." rel="me">
+    <Image class="rounded-full" src={waLogo} alt="WhatsApp logo" />
+</a>

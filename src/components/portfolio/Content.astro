@@ -1,0 +1,105 @@
+---
+import { Image } from "astro:assets";
+
+// Jumlah total gambar yang akan digenerate
+const TOTAL_IMAGES = 16;
+
+// Batas minimum dan maksimum lebar gambar
+const MIN_WIDTH = 320;
+const MAX_WIDTH = 384;
+
+// Batas minimum dan maksimum tinggi gambar
+const MIN_HEIGHT = 384;
+const MAX_HEIGHT = 680;
+
+// ID gambar yang aman digunakan dari Picsum Photos
+// Array ini readonly agar tidak bisa diubah secara tidak sengaja
+const SAFE_PICSUM_IDS: readonly number[] = Array.from({ length: 20 }, (_, i) => (i + 1) * 10);
+
+// ID fallback jika gambar utama gagal dimuat
+const FALLBACK_ID = 1;
+
+/**
+ * Menghasilkan bilangan bulat acak antara min dan max (inklusif)
+ */
+function getRandomInt(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/**
+ * Mengacak array menggunakan algoritma Fisher-Yates
+ * dan mengambil sejumlah elemen unik sebanyak `count`
+ */
+function pickUniqueIds(source: readonly number[], count: number): number[] {
+    const array = [...source]; // Salin array agar source asli tidak berubah
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]; // Tukar elemen
+    }
+    return array.slice(0, count); // Ambil sejumlah count
+}
+
+// Tipe objek gambar
+type ImageItem = {
+    readonly id: number;        // ID gambar
+    readonly width: number;     // Lebar gambar
+    readonly height: number;    // Tinggi gambar
+    readonly src: string;       // URL gambar utama
+    readonly fallback: string;  // URL gambar fallback
+    readonly blur: string;      // URL versi blur (placeholder)
+    readonly alt: string;       // Teks alternatif untuk aksesibilitas
+};
+
+// Generate array gambar lengkap
+const images: readonly ImageItem[] = pickUniqueIds(SAFE_PICSUM_IDS, TOTAL_IMAGES).map((id) => {
+    const width = getRandomInt(MIN_WIDTH, MAX_WIDTH);   // Tentukan lebar acak
+    const height = getRandomInt(MIN_HEIGHT, MAX_HEIGHT); // Tentukan tinggi acak
+
+    // Tentukan ukuran blur proporsional
+    // Kita tetap ingin blur cukup kecil untuk loading cepat,
+    // tapi mengikuti rasio asli agar tidak terlihat terdistorsi
+    const blurWidth = Math.max(20, Math.floor(width / 16)); // minimal 20px
+    const blurHeight = Math.max(20, Math.floor(height / 16)); // minimal 20px
+
+    return {
+        id,
+        width,
+        height,
+        src: `https://picsum.photos/id/${id}/${width}/${height}`,               // URL utama
+        fallback: `https://picsum.photos/id/${FALLBACK_ID}/${width}/${height}`, // URL fallback
+        blur: `https://picsum.photos/id/${id}/${blurWidth}/${blurHeight}`,      // Blur proporsional
+        alt: `Portfolio #${id}`                                                 // Deskripsi gambar
+    };
+});
+
+interface Props {
+    class: string;
+};
+
+const {
+    class: className
+} = Astro.props as Props;
+---
+
+{images.map((image) => (
+
+    <div
+        class={`bg-cover bg-center bg-no-repeat overflow-hidden aspect-${image.width}/${image.height}`}
+        style={`background-image:url('${image.blur}');`}
+        class:list={[className]}
+    >
+
+        <Image
+            src={image.src}
+            alt={image.alt}
+            width={image.width}
+            height={image.height}
+            loading="lazy"
+            class="w-full h-full object-cover opacity-0 transition-opacity duration-500"
+            onload="this.classList.add('opacity-100')"
+            onerror={`this.onerror=null;this.src='${image.fallback}'`}
+        />
+
+    </div>
+
+))}

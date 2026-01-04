@@ -1,0 +1,54 @@
+---
+import Container from "../site/Container.astro";
+import Logo from "../site/Logo.astro";
+import logoImg from "../../assets/ikon/faviconLight.svg";
+import heroImg from "../../assets/heroImg.jpeg";
+import siteNavJson from "../../data/sitenav.json";
+
+const { pathname } = Astro.url;
+
+const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname === href || pathname.startsWith(`${href}/`);
+};
+---
+
+<Container class="flex flex-col min-h-svh w-full max-w-none hover:[&>_[class*=':scale-']]:scale-100 isolate" imgUrl={heroImg}>
+
+    <div class="container mx-auto px-4 py-2 flex max-md:flex-col gap-4 items-center relative z-10">
+        <Logo src={logoImg.src} size="size-18"/>
+        <div class="flex gap-1 justify-center md:justify-end md:ms-auto uppercase">
+            {siteNavJson.map(nav => (
+                <a
+                    href={nav.href}
+                    class={`p-1 md:px-3 md:py-2 transition
+                            ${isActive(nav.href)
+                                ? "bg-yellow-300 text-black"
+                                : "hover:bg-yellow-300 text-gray-300 hover:text-black"}
+                    `}
+                    aria-current={isActive(nav.href) ? "page" : undefined}
+                >
+                    {nav.teks}
+                </a>
+            ))}
+        </div>
+    </div>
+
+    <div class="grow flex flex-col justify-center items-center p-4 text-center text-white text-shadow-sm relative z-10">
+
+        <h1 class="text-yellow-500 text-3xl sm:text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl tracking-tighter mb-4">
+            Bintang Surya Madani
+        </h1>
+
+        <p class="text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl">
+            Transforming ideas into reality
+        </p>
+
+        <p class="md:text-xl font-light mx-auto md:max-w-(--breakpoint-sm) lg:max-w-(--breakpoint-md)">
+            It is a creative hub where imagination meets craftsmanship to transform ideas into tangible realities.
+            We specialize in turning conceptual visions into concrete forms, whether it be through design, artistry, or technological innovation.
+        </p>
+
+    </div>
+
+</Container>

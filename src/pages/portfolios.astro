@@ -1,0 +1,41 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/site/Header.astro";
+import Footer from "../components/site/Footer.astro";
+import Container from "../components/site/Container.astro";
+import Content from "../components/portfolio/Content.astro";
+import Hr from "../components/site/Hr.astro";
+import Title from "../components/site/Title.astro";
+---
+
+<Layout
+    title="Our Portfolios | Bintang Surya Madani"
+    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+>
+
+    <Container class="px-4 py-2">
+        <Header/>
+    </Container>
+
+    <Container class="px-4 py-24 max-w-none" imgUrl="https://picsum.photos/id/491/1920/480">
+        <Container class="text-center relative z-10">
+            <Title
+                title="Our Portofolios"
+                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                class="text-yellow-500"
+                subclass="text-neutral-300"
+            />
+        </Container>
+    </Container>
+
+    <Container class="px-4 py-24 max-w-(--breakpoint-xl)">
+        <div class="columns-2 md:columns-4 lg:columns-5 gap-4">
+            <Content class="mb-4 rounded-xl border border-black/25 shadow-md transition-transform hover:scale-105 hover:shadow-xl"/>
+        </div>
+    </Container>
+
+    <Hr/>
+
+    <Footer/>
+
+</Layout>

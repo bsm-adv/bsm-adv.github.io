@@ -1,0 +1,21 @@
+---
+import Container from "../site/Container.astro";
+import Title from "../site/Title.astro"
+import Content from "./Content.astro";
+---
+
+<Container class="px-4 py-24">
+
+    <Container class="text-center mb-12">
+        <Title
+            as="h2"
+            title="Testimonials"
+            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        />
+    </Container>
+
+    <Container class="max-w-(--breakpoint-lg)">
+        <Content/>
+    </Container>
+
+</Container>
