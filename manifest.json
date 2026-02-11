@@ -1,0 +1,16 @@
+{
+    "name": "Bintang Surya Madani",
+    "short_name": "BSM Adv",
+    "description": "Layanan Advertising, Branding, dan Konstruksi Reklame Profesional",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "icons": [
+        {
+            "src": "/favicon-dark.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ]
+}
